@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Main</title>
+    <div th:replace="fragments/headers :: headLinks"></div>
+</head>
+<body>
+<div th:replace="fragments/navbar :: navbar"></div>
+<div class="container my-5">
+    <h1 th:text="'#' + ${tag}"></h1>
+    <form class="row" method="get" th:action="@{/messages/{t}/tag(t=${tag})}">
+        <div class="col me-1">
+            <input class="form-control" type="text" name="filter" th:value="${filter}"/>
+        </div>
+        <div class="col">
+            <button type="submit" class="btn btn-primary mb-3">Filter</button>
+        </div>
+    </form>
+    <div class="row">
+        <nav class="col-auto me-auto" aria-label="Page navigation example">
+            <ul class="pagination">
+                <li th:each="page : ${pages}"
+                    th:class="${page == -1}? 'page-item disabled' : ((${page} == ${messages.getNumber()} + 1)? 'page-item active' : 'page-item')">
+                    <a th:text="${page == -1}? '...' : ${page}" class="page-link"
+                       th:href="@{/messages/{t}/tag?page={p}&size={s}&filter={f}(t=${tag},p=${page}-1,s=${messages.getSize()},f=${filter}? ${filter} : '')}">...</a>
+                </li>
+            </ul>
+        </nav>
+        <div class="col-auto">
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                    Size
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item"
+                           th:href="@{/messages/{t}/tag?page={p}&size=1&filter={f}(t=${tag},p=${messages.getNumber()}*${messages.getSize},f=${filter})}">1</a>
+                    </li>
+                    <li><a class="dropdown-item"
+                           th:href="@{/messages/{t}/tag?page={p}&size=2&filter={f}(t=${tag},p=${messages.getNumber()}*${messages.getSize}/2,f=${filter})}">2</a>
+                    </li>
+                    <li><a class="dropdown-item"
+                           th:href="@{/messages/{t}/tag?page={p}&size=3&filter={f}(t=${tag},p=${messages.getNumber()}*${messages.getSize}/3,f=${filter})}">3</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row row-cols-1 row-cols-md-4 g-4" id="message-list">
+        <div th:each="message : ${messages}" class="col">
+            <div th:insert="fragments/messageCard :: card"></div>
+        </div>
+    </div>
+    <nav class="col-auto me-auto mt-3" aria-label="Page navigation example">
+        <ul class="pagination">
+            <li th:each="page : ${pages}"
+                th:class="${page == -1}? 'page-item disabled' : ((${page} == ${messages.getNumber()} + 1)? 'page-item active' : 'page-item')">
+                <a th:text="${page == -1}? '...' : ${page}" class="page-link"
+                   th:href="@{/messages/{t}/tag?page={p}&size={s}&filter={f}(t=${tag},p=${page}-1,s=${messages.getSize()},f=${filter}? ${filter} : '')}">...</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+<div th:replace="fragments/headers :: bodyLinks"></div>
+</body>
+</html>

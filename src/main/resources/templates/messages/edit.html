@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit</title>
+    <div th:replace="fragments/headers :: headLinks"></div>
+</head>
+<body>
+<div th:replace="fragments/navbar :: navbar"></div>
+<div class="container mt-5">
+    <form th:method="patch" th:action="@{/messages/{id}(id=${message.getId()})}" th:object="${message}" enctype="multipart/form-data">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+        <input type="hidden" name="_method" value="patch">
+        <div class="col-5 mb-3">
+            <label for="text" class="form-label">Text: </label>
+            <input type="text" class="form-control" id="text" th:field="*{text}"/>
+            <div style="color:red" th:if="${#fields.hasErrors('text')}" th:errors="*{text}">Text Error</div>
+        </div>
+        <div class="col-5 mb-3">
+            <label for="tag" class="form-label">Tag: </label>
+            <input type="text" class="form-control" id="tag" th:field="*{tag}"/>
+            <div style="color:red" th:if="${#fields.hasErrors('tag')}" th:errors="*{tag}">Tag Error</div>
+        </div>
+        <div class="col-5 mb-3">
+            <label for="img" class="form-label">Image: </label>
+            <input type="file" class="form-control" id="img" name="filename" th:value="*{file}"/>
+        </div>
+        <div class="row">
+            <div class="col-sm-auto">
+                <button type="submit" class="btn btn-primary">Edit</button>
+            </div>
+            <div class="col-sm-auto ms-3">
+                <a type="submit" class="btn btn-outline-danger">Delete</a>
+            </div>
+        </div>
+    </form>
+</div>
+<div th:replace="fragments/headers :: bodyLinks"></div>
+</body>
+</html>

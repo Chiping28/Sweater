@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit</title>
+    <div th:replace="fragments/headers :: headLinks"></div>
+</head>
+<body>
+<div th:replace="fragments/navbar :: navbar"></div>
+<div class="container mt-5">
+    <form th:method="patch" th:action="@{/people/{id}(id=${person.getId()})}" th:object="${person}">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+        <input type="hidden" name="_method" value="patch">
+        <div class="col-5 mb-3">
+            <label for="username" class="form-label">Имя пользователя: </label>
+            <input type="text" class="form-control" id="username" th:field="*{username}"/>
+            <div style="color:red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username Error</div>
+        </div>
+        <div class="col-5 mb-3">
+            <label for="email" class="form-label">Почта: </label>
+            <input type="text" class="form-control" id="email" th:field="*{email}"/>
+            <div style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</div>
+        </div>
+        <div class="col mb-3" sec:authorize="hasRole('ROLE_ADMIN')">
+            <label for="roles">Выберите роль: </label>
+            <select class="form-select" id="roles" th:field="*{role}">
+                <option th:each="role : ${roles}" th:text="${role}" th:value="${role}"></option>
+            </select>
+        </div>
+        <input type="hidden" th:field="*{password}">
+        <button type="submit" class="btn btn-primary">Edit</button>
+    </form>
+</div>
+<div th:replace="fragments/headers :: bodyLinks"></div>
+</body>
+</html>

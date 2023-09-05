@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Show</title>
+    <div th:replace="fragments/headers :: headLinks"></div>
+</head>
+<body>
+<div th:replace="fragments/navbar :: navbar"></div>
+<div class="container mt-5">
+    <p th:text="${'Username: ' + person.getUsername()}"></p>
+    <p th:text="${'Email: ' + person.getEmail()}"></p>
+    <a th:href="@{/people/{id}/edit(id=${person.getId()})}">Edit</a>
+</div>
+<div th:replace="fragments/headers :: bodyLinks"></div>
+</body>
+</html>
