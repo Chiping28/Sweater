@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8" />
+    <title>Home</title>
+    <div th:replace="fragments/headers :: headLinks"></div>
+</head>
+<body>
+<div th:replace="fragments/navbar :: navbar"></div>
+<div class="container mt-5" id="home-page">
+    <h1 sec:authorize="isAuthenticated()">Hello, <span sec:authentication="name"></span></h1>
+    <h1 sec:authorize="!isAuthenticated()">Hello, guest</h1>
+    <p class="mt-3">This is an online resource where you can post your own posts and view other</p>
+</div>
+<div th:replace="fragments/headers :: bodyLinks"></div>
+</body>
+</html>

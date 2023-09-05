@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Main</title>
+    <div th:replace="fragments/headers :: headLinks"></div>
+</head>
+<body>
+<div th:replace="fragments/navbar :: navbar"></div>
+<div class="container my-5">
+    <div class="card">
+        <div th:unless="${message.getFile() == '' or message.getFile() == null}">
+            <img class="card-img-top" th:src="@{/img/{name}(name=${message.getFile()})}">
+        </div>
+        <div class="card-body m-2">
+            <p th:text="${message.getText()}"></p>
+            <i><a th:text="${message.getTag()} == ''? '' : '#' + ${message.getTag()}"
+                  th:href="@{/messages/{t}/tag(t=${message.getTag()})}"></a></i>
+        </div>
+        <div class="card-footer">
+            <div class="row align-items-center">
+                <div class="col-auto me-auto">
+                    <div class="btn-group">
+                        <a class="btn btn-outline-secondary"
+                           th:href="@{/messages/{id}(id=${message.getId()})}">View</a>
+                        <a class="btn btn-outline-secondary" th:if="${message.getOwner().getId() == personDetails.getId()}"
+                           th:href="@{/messages/{id}/edit(id=${message.getId()})}">Edit</a>
+                    </div>
+                </div>
+                <div class="col-auto me-auto">
+                    <a th:href="@{/messages/{id}/like(id=${message.getId()})}" th:unless="${message.isMeLiked()}" class="link-underline link-underline-opacity-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#0d6efd" class="bi bi-heart" viewBox="0 0 16 16">
+                            <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
+                        </svg>
+                        <span style="color: #0d6efd" th:text="${message.getLikes()} == 0 ? '' : ${message.getLikes()}"></span>
+                    </a>
+                    <a th:href="@{/messages/{id}/like(id=${message.getId()})}" th:if="${message.isMeLiked()}" class="link-underline link-underline-opacity-0">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+                        </svg>
+                        <span style="color: #0d6efd" th:text="${message.getLikes()} == 0 ? '' : ${message.getLikes()}"></span>
+                    </a>
+                </div>
+                <div class="col-auto">
+                    <a th:href="@{/people/{id}(id=${message.getOwner().getId()})}"
+                       th:text="${message.getOwner().getUsername()}"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="fragments/headers :: bodyLinks"></div>
+</body>
+</html>

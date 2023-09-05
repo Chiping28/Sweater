@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Index</title>
+    <div th:replace="fragments/headers :: headLinks"></div>
+</head>
+<body>
+<div th:replace="fragments/navbar :: navbar"></div>
+<div class="container mt-5">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Username</th>
+            <th scope="col">Role</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="person : ${people}">
+            <td th:text="${person.getUsername()}"></td>
+            <td th:text="${person.getRole()}"></td>
+            <td><a th:href="@{people/profile/{id}(id=${person.getId()})}">more</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<div th:replace="fragments/headers :: bodyLinks"></div>
+</body>
+</html>
